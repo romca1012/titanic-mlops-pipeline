@@ -1,0 +1,19 @@
+- name: Copy MLflow Dockerfile
+  copy:
+    src: ../../docker/mlflow.Dockerfile
+    dest: ~/mlflow.Dockerfile
+
+- name: Build MLflow image
+  command: docker build -t mlflow-server -f ~/mlflow.Dockerfile ~
+
+- name: Run MLflow container
+  docker_container:
+    name: mlflow
+    image: mlflow-server
+    state: started
+    restart_policy: always
+    ports:
+      - "5000:5000"
+    volumes:
+      - ~/mlflow_artifacts:/mlflow/artifacts
+    command: mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root /mlflow/artifacts --host 0.0.0.0 --port 5000
