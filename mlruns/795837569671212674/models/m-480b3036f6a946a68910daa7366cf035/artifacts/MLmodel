@@ -1,0 +1,22 @@
+artifact_path: file:///home/fawaz/titanic-mlops-pipeline/mlruns/795837569671212674/models/m-480b3036f6a946a68910daa7366cf035/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.12.3
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.7.0
+mlflow_version: 3.1.0
+model_id: m-480b3036f6a946a68910daa7366cf035
+model_size_bytes: 400352
+model_uuid: m-480b3036f6a946a68910daa7366cf035
+prompts: null
+run_id: 388db491e68f48b9b19b51115b215d9e
+utc_time_created: '2025-06-18 11:13:37.598768'
