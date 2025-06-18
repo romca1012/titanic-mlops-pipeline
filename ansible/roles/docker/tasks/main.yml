@@ -1,0 +1,29 @@
+- name: Install prerequisites
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+    state: present
+
+- name: Add Docker GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker repo
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+    state: present
+
+- name: Install Docker and Compose
+  apt:
+    name:
+      - docker-ce
+    state: present
+    update_cache: yes
+
+- name: Install docker-compose via pip
+  pip:
+    name: docker-compose
