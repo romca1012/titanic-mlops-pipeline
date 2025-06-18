@@ -1,0 +1,6 @@
+artifact_location: file:///home/fawaz/titanic-mlops-pipeline/mlruns/795837569671212674
+creation_time: 1750245217419
+experiment_id: '795837569671212674'
+last_update_time: 1750245217419
+lifecycle_stage: active
+name: titanic-mlops

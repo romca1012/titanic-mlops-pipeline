@@ -1,0 +1,10 @@
+artifact_location: file:///home/fawaz/titanic-mlops-pipeline/mlruns/795837569671212674/models/m-480b3036f6a946a68910daa7366cf035/artifacts
+creation_timestamp: 1750245217589
+experiment_id: '795837569671212674'
+last_updated_timestamp: 1750245219535
+model_id: m-480b3036f6a946a68910daa7366cf035
+model_type: null
+name: model
+source_run_id: 388db491e68f48b9b19b51115b215d9e
+status: 2
+status_message: null
