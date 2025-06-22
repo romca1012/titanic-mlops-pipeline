@@ -107,9 +107,6 @@ Logs de l'API :
 docker logs titanic-mlops-pipeline-titanic-mlops-api-1
 Logs MLflow :
 
-bash
-Copier
-Modifier
 docker logs titanic-mlops-pipeline-mlflow-tracking-1
 🧑‍🏫 Ce qu'il faut faire manuellement (pour le prof) ✅
 ✅ Une fois le déploiement terminé :
