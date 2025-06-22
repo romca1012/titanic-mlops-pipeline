@@ -1,0 +1,61 @@
+---
+- name: Create target directory for MLOps project
+  file:
+    path: /home/ubuntu/titanic-mlops-pipeline
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: '0755'
+
+- name: Copy docker-compose.yml
+  copy:
+    src: ../../docker-compose.yml
+    dest: /home/ubuntu/titanic-mlops-pipeline/docker-compose.yml
+    owner: ubuntu
+    group: ubuntu
+    mode: '0644'
+
+- name: Copy MLOps API sources
+  copy:
+    src: ../../api/
+    dest: /home/ubuntu/titanic-mlops-pipeline/api/
+    owner: ubuntu
+    group: ubuntu
+    mode: '0755'
+
+- name: Copy MLOps training sources
+  copy:
+    src: ../../training/
+    dest: /home/ubuntu/titanic-mlops-pipeline/training/
+    owner: ubuntu
+    group: ubuntu
+    mode: '0755'
+
+- name: Copy requirements.txt
+  copy:
+    src: ../../requirements.txt
+    dest: /home/ubuntu/titanic-mlops-pipeline/requirements.txt
+    owner: ubuntu
+    group: ubuntu
+    mode: '0644'
+
+- name: Copy data directory
+  copy:
+    src: ../../data/
+    dest: /home/ubuntu/titanic-mlops-pipeline/data/
+    owner: ubuntu
+    group: ubuntu
+    mode: '0755'
+
+- name: Create empty mlruns directory
+  file:
+    path: /home/ubuntu/titanic-mlops-pipeline/mlruns
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: '0755'
+
+- name: Run docker compose up -d
+  command: docker compose up -d
+  args:
+    chdir: /home/ubuntu/titanic-mlops-pipeline

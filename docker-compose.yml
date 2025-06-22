@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+
+  mlflow-tracking:
+    image: ghcr.io/mlflow/mlflow:v2.12.1
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlruns:/mlflow/mlruns
+    command: mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root /mlflow/mlruns --host 0.0.0.0 --port 5000
+
+  titanic-mlops-training:
+    build:
+      context: .
+      dockerfile: training/Dockerfile
+    depends_on:
+      - mlflow-tracking
+    command: python training/train.py
+    volumes:
+      - ./mlruns:/mlflow/mlruns
+    restart: "on-failure"   # Option : relance en cas d'erreur
+
+  titanic-mlops-api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      titanic-mlops-training:
+        condition: service_completed_successfully
+    environment:
+      MLFLOW_TRACKING_URI: http://mlflow-tracking:5000
+    volumes:
+      - ./mlruns:/mlflow/mlruns
+    restart: always
