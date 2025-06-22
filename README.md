@@ -108,7 +108,7 @@ docker logs titanic-mlops-pipeline-titanic-mlops-api-1
 Logs MLflow :
 
 docker logs titanic-mlops-pipeline-mlflow-tracking-1
-🧑‍🏫 Ce qu'il faut faire manuellement (pour le prof) ✅
+🧑‍🏫 Ce qu'il faut faire manuellement ✅
 ✅ Une fois le déploiement terminé :
 
 1️⃣ Se connecter en SSH sur l'API :
