@@ -1,0 +1,15 @@
+# Terraform
+infra/terraform/.terraform/
+infra/terraform/terraform.tfstate
+infra/terraform/terraform.tfstate.backup
+infra/terraform/tfplan
+
+# AWS CLI zip
+infra/terraform/awscliv2.zip
+
+# MLflow runs
+mlruns/
+
+# Python cache
+__pycache__/
+*.pyc
