@@ -125,3 +125,46 @@ API Swagger : http://<IP_API>:8000/docs
 MLflow UI : http://<IP_MLFLOW>:5000
 
 4️⃣ Tester l'API (exemple curl)
+
+```text
+
+curl -X POST http://<IP_API>:8000/predict \
+  -H "Content-Type: application/json" \
+  -d '{"Pclass": 3, "Sex": 1, "Age": 22, "Fare": 7.25, "SibSp": 1, "Parch": 0}'
+
+```
+
+5️⃣ Connexion SSH (optionnel)
+
+```text
+
+# Connexion à l'instance API
+ssh -i infra/terraform/_credentials/mlops-key.pem ubuntu@<IP_API>
+
+# Connexion à l'instance MLflow / training
+ssh -i infra/terraform/_credentials/mlops-key.pem ubuntu@<IP_MLFLOW>
+
+```
+
+6️⃣ Vérifier les containers (optionnel)
+
+```text
+
+docker ps -a
+docker logs titanic-mlops-pipeline-titanic-mlops-api-1
+docker logs titanic-mlops-pipeline-mlflow-tracking-1
+
+```
+
+✅ À faire manuellement après déploiement
+Vérifier l’API sur Swagger : http://<IP_API>:8000/docs
+
+Accéder à MLflow UI : http://<IP_MLFLOW>:5000
+
+Tester la prédiction via Swagger ou curl
+
+🧠 Auteur
+Romaric CAPO-CHICHI
+Nikina ZINSOU
+Lorin KAKAHOUN
+
