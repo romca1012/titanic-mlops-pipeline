@@ -52,6 +52,12 @@ scikit-learn (modèle ML)
 
 Python 3.12
 
+🌐 Réseau
+- Les Security Groups sont configurés pour autoriser :
+  - l'accès à l'API (port 8000)
+  - l'accès à MLflow (port 5000)
+  - l'accès SSH (port 22)
+
 📁 Structure du projet
 
 titanic-mlops-pipeline/
