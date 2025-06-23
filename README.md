@@ -70,7 +70,10 @@ titanic-mlops-pipeline/
 
 git clone https://github.com/romca1012/titanic-mlops-pipeline.git
 cd titanic-mlops-pipeline
+
+
 2️⃣ Provisionner l'infra (AWS)
+remplir ces infos de connexions dans le fichier terraform.tfvars et dans _credentials/mlops-key.pem
 ./launch.sh
 ➡️ Ce script fait automatiquement :
 ✅ Provisionnement Terraform
@@ -92,14 +95,14 @@ curl -X POST http://<IP-API>:8000/predict \
 -d '{"Pclass": 3, "Sex": 1, "Age": 22, "Fare": 7.25, "SibSp": 1, "Parch": 0}'
 
 
-5️⃣ Connexion SSH aux machines
+5️⃣ Connexion SSH aux machines (optionnel)
 # API instance
 ssh -i infra/terraform/_credentials/mlops-key.pem ubuntu@<IP-API>
 
 # MLflow + training instance
 ssh -i infra/terraform/_credentials/mlops-key.pem ubuntu@<IP-MLFLOW>
 
-6️⃣ Vérification des containers
+6️⃣ Vérification des containers (optionnel)
 
 docker ps -a
 Logs de l'API :
@@ -111,7 +114,7 @@ docker logs titanic-mlops-pipeline-mlflow-tracking-1
 🧑‍🏫 Ce qu'il faut faire manuellement ✅
 ✅ Une fois le déploiement terminé :
 
-1️⃣ Se connecter en SSH sur l'API :
+1️⃣ Se connecter en SSH sur l'API : (optionnel)
 
 ssh -i infra/terraform/_credentials/mlops-key.pem ubuntu@<IP-API>
 
