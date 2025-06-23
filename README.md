@@ -84,23 +84,23 @@ remplir ces infos de connexions dans le fichier terraform.tfvars et dans _creden
 
 3️⃣ Accéder aux interfaces
 API (FastAPI / Swagger) :
-http://<IP-API>:8000/docs
+http:// <IP-API> :8000/docs
 
 MLflow Tracking UI :
-http://<IP-MLFLOW>:5000
+http:// <IP-MLFLOW> :5000
 
 4️⃣ Tester l'API (exemple curl) (si besoin ou faire directement les tests via l api)
-curl -X POST http://<IP-API>:8000/predict \
+curl -X POST http:// <IP-API>:8000 /predict \
 -H "Content-Type: application/json" \
 -d '{"Pclass": 3, "Sex": 1, "Age": 22, "Fare": 7.25, "SibSp": 1, "Parch": 0}'
 
 
 5️⃣ Connexion SSH aux machines (optionnel)
 # API instance
-ssh -i infra/terraform/_credentials/mlops-key.pem ubuntu@<IP-API>
+ssh -i infra/terraform/_credentials/mlops-key.pem ubuntu@ <IP-API> 
 
 # MLflow + training instance
-ssh -i infra/terraform/_credentials/mlops-key.pem ubuntu@<IP-MLFLOW>
+ssh -i infra/terraform/_credentials/mlops-key.pem ubuntu@ <IP-MLFLOW> 
 
 6️⃣ Vérification des containers (optionnel)
 
@@ -116,10 +116,10 @@ docker logs titanic-mlops-pipeline-mlflow-tracking-1
 
 1️⃣ Se connecter en SSH sur l'API : (optionnel)
 
-ssh -i infra/terraform/_credentials/mlops-key.pem ubuntu@<IP-API>
+ssh -i infra/terraform/_credentials/mlops-key.pem ubuntu@ <IP-API> 
 
 2️⃣ Tester l'API avec curl ou navigateur :
-http://<IP-API>:8000/docs
+http:// <IP-API>:8000 /docs
 
 3️⃣ Vérifier le suivi des modèles sur MLflow UI :
 http://<IP-MLFLOW>:5000
