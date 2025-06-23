@@ -1,39 +1,41 @@
-🚀 Titanic MLOps Pipeline - Projet DevOps / MLOps
-🎯 Objectif
+# 🚀 Titanic MLOps Pipeline
+
+## 🎯 Objectif
+
 Développer et déployer une solution MLOps complète sur AWS :
 
-API REST pour les prédictions
+- API REST pour les prédictions
+- Instance pour l'entraînement du modèle
+- Suivi des expériences avec **MLflow**
+- Automatisation complète avec :
+  - **Terraform / OpenTofu** (infrastructure)
+  - **Ansible** (configuration et déploiement)
+  - **Docker** (containerisation)
 
-Instance training pour entraîner le modèle
+---
 
-Suivi des expériences avec MLflow
+## 🖥️ Architecture
 
-Automatisation avec :
+```text
+         +------------------+
+         | Client (curl/UI) |
+         +--------+---------+
+                  |
+                  v
+         +--------+---------+         +-----------------------------+
+         |   EC2 Instance   |         |        EC2 Instance         |
+         |     API REST     | <-----> |   MLflow + Training server  |
+         | (FastAPI + Docker)         | (MLflow + scikit-learn)     |
+         +--------+---------+         +-----------------------------+
+         Port 8000 : /predict              Port 5000 : MLflow UI
 
-Terraform / OpenTofu (infra)
 
-Ansible (config / déploiement)
+```
 
-Docker (containerisation)
-
-🖥️ Architecture
-
-[ Client (curl / navigateur) ]
-          |
-    +-----------+
-    | EC2 API   |  --->  uvicorn FastAPI  + Docker
-    +-----------+         (port 8000)
-          |
-          V
-[ EC2 MLflow + training ]  
-    - MLflow tracking server (port 5000)  
-    - Model registry  
-    - Training pipeline (Python)  
-Instances :
-
+Instances utilisées :
 titanic-mlops-api : API REST (FastAPI, uvicorn)
 
-mlflow-tracking-training : MLflow server + model training
+mlflow-tracking-training : MLflow server + entraînement du modèle
 
 🔨 Technologies
 AWS EC2 (instances t3.small)
@@ -44,88 +46,82 @@ Ansible
 
 Docker & Docker Compose
 
-FastAPI (API)
+FastAPI (API REST)
 
-MLflow (tracking, registry)
+MLflow (tracking + model registry)
 
-scikit-learn (modèle ML)
+scikit-learn (modèle de classification Titanic)
 
 Python 3.12
 
 🌐 Réseau
-- Les Security Groups sont configurés pour autoriser :
-  - l'accès à l'API (port 8000)
-  - l'accès à MLflow (port 5000)
-  - l'accès SSH (port 22)
+VPC automatiquement provisionné
+
+Security Groups :
+
+✅ Port 8000 : accès à l'API
+
+✅ Port 5000 : accès à MLflow
+
+✅ Port 22 : SSH
 
 📁 Structure du projet
 
+```text
+
 titanic-mlops-pipeline/
 ├── api/                 # API REST FastAPI
-├── training/            # Code d'entraînement
-├── data/                # Données d'entraînement (CSV)
+├── training/            # Entraînement du modèle ML
+├── data/                # Fichier CSV Titanic
 ├── infra/
-│   ├── terraform/       # Terraform (OpenTofu)
-│   └── ansible/         # Playbooks Ansible
+│   ├── terraform/       # Provisionnement (OpenTofu)
+│   └── ansible/         # Configuration Ansible
 ├── docker-compose.yml   # Déploiement multi-container
 └── README.md            # Documentation
 
+```
+
 🚀 Instructions de déploiement
 
-1️⃣ Cloner le repo
+1️⃣ Cloner le dépôt
+
+```text
 
 git clone https://github.com/romca1012/titanic-mlops-pipeline.git
 cd titanic-mlops-pipeline
 
+```
 
-2️⃣ Provisionner l'infra (AWS)
-remplir ces infos de connexions dans le fichier terraform.tfvars et dans _credentials/mlops-key.pem
+2️⃣ Lancer le déploiement complet
+⚠️ Prérequis : renseigner les fichiers suivants :
+
+infra/terraform/terraform.tfvars
+
+Clé SSH privée dans infra/terraform/_credentials/mlops-key.pem
+
+Puis exécuter :
+
+```text
+
 ./launch.sh
-➡️ Ce script fait automatiquement :
+
+```
+
+Ce script fait automatiquement :
+
 ✅ Provisionnement Terraform
-✅ Génération des IPs
-✅ Génération du inventory.ini pour Ansible
-✅ Configuration Ansible
-✅ Déploiement Docker
 
-3️⃣ Accéder aux interfaces
-API (FastAPI / Swagger) :
-http:// <IP-API> :8000/docs
+✅ Récupération des IPs
 
-MLflow Tracking UI :
-http:// <IP-MLFLOW> :5000
+✅ Génération de inventory.ini pour Ansible
 
-4️⃣ Tester l'API (exemple curl) (si besoin ou faire directement les tests via l api)
-curl -X POST http:// <IP-API>:8000 /predict \
--H "Content-Type: application/json" \
--d '{"Pclass": 3, "Sex": 1, "Age": 22, "Fare": 7.25, "SibSp": 1, "Parch": 0}'
+✅ Configuration des serveurs via Ansible
 
+✅ Déploiement des containers Docker
 
-5️⃣ Connexion SSH aux machines (optionnel)
-# API instance
-ssh -i infra/terraform/_credentials/mlops-key.pem ubuntu@ <IP-API> 
+3️⃣ Accéder à l'API et à MLflow
+API Swagger : http://<IP_API>:8000/docs
 
-# MLflow + training instance
-ssh -i infra/terraform/_credentials/mlops-key.pem ubuntu@ <IP-MLFLOW> 
+MLflow UI : http://<IP_MLFLOW>:5000
 
-6️⃣ Vérification des containers (optionnel)
-
-docker ps -a
-Logs de l'API :
-
-docker logs titanic-mlops-pipeline-titanic-mlops-api-1
-Logs MLflow :
-
-docker logs titanic-mlops-pipeline-mlflow-tracking-1
-🧑‍🏫 Ce qu'il faut faire manuellement ✅
-✅ Une fois le déploiement terminé :
-
-1️⃣ Se connecter en SSH sur l'API : (optionnel)
-
-ssh -i infra/terraform/_credentials/mlops-key.pem ubuntu@ <IP-API> 
-
-2️⃣ Tester l'API avec curl ou navigateur :
-http:// <IP-API>:8000 /docs
-
-3️⃣ Vérifier le suivi des modèles sur MLflow UI :
-http://<IP-MLFLOW>:5000
+4️⃣ Tester l'API (exemple curl)
